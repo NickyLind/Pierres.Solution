@@ -1,0 +1,31 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Pierres.Models.Treat
+
+<div class="header">Edit</div>
+
+<div class="subHeader">Edit this treat's details: @Html.DisplayFor(model => model.Name)</div>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.TreatId)
+  @foreach (var join in Model.JoinEntities)
+  {
+      @Html.Hidden("joinId", @join.FlavorTreatId)
+  }
+
+  @Html.LabelFor(model => model.Name)
+  @Html.EditorFor(model => model.Name)
+
+  @Html.LabelFor(model => model.Description)
+  @Html.EditorFor(model => model.Description)
+@* branching statement for if there are no flavors  *@
+  @Html.Label("Select flavor")
+  @Html.DropDownList("FlavorId", "N/A")
+
+  <input type="submit" value="Save" />
+}
+
+<p>Back to @Html.ActionLink("Treat List", "Index")</p>
