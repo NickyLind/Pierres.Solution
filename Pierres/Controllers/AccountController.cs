@@ -1,18 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using ProjectName.Models;
+using Pierres.Models;
 using System.Threading.Tasks;
-using ProjectName.ViewModels;
+using Pierres.ViewModels;
 
-namespace ProjectName.Controllers
+namespace Pierres.Controllers
 {
   public class AccountController : Controller
   {
-    private readonly ProjectNameContext _db;
+    private readonly PierresContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
 
-    public AccountController (UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ProjectNameContext db)
+    public AccountController (UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, PierresContext db)
     {
       _userManager = userManager;
       _signInManager = signInManager;

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using ProjectName.Models;
+using Pierres.Models;
 
-namespace ProjectName.Controllers
+namespace Pierres.Controllers
 {
   public class HomeController : Controller
   {
@@ -10,12 +10,5 @@ namespace ProjectName.Controllers
     {
       return View();
     }
-    // example of how to link photos to a page
-    [Route("/photos")]
-    public ActionResult Photos()
-    {
-      return View();
-    }
-
   }
 }

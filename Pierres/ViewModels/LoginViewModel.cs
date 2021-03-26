@@ -1,4 +1,4 @@
-namespace ProjectName.ViewModels
+namespace Pierres.ViewModels
 {
   public class LoginViewModel
   {

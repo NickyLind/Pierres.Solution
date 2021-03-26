@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace ProjectName.Models
+namespace Pierres.Models
 {
-  public class ProjectNameContext : IdentityDbContext<ApplicationUser>
+  public class PierresContext : IdentityDbContext<ApplicationUser>
   {
     // public virtual DbSet<Category> Categories { get; set; }
     // public DbSet<Item> Items { get; set; }
-    public ProjectNameContext(DbContextOptions options) : base(options) { }
+    public PierresContext(DbContextOptions options) : base(options) { }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
       optionsBuilder.UseLazyLoadingProxies();
