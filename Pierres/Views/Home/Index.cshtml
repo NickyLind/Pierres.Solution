@@ -1,3 +1,14 @@
 @{
   Layout = "_Layout";
 }
+@using Pierres.Models;
+@model List<Pierres.Models.Treat>
+
+<div class="header">Pierre's Sweet and Savory Treats</div>
+<div class="subheader">Here's a list of all the treats we have to offer: </div>
+<ul>
+  @foreach (FlavorTreat join in Model.JoinEntities)
+  {
+    <li>@Html.ActionLink($"{treat.Name}", "Details", "Treats", new {id = treat.TreatId })</li>
+  }
+</ul>
