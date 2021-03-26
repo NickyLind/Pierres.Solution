@@ -1,0 +1,21 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Pierres.Models.Flavor
+
+<div class="header">Add a flavor-type</div>
+
+<div class="subHeader">assign this flavor to a treat-type: @Html.DisplayFor(model => model.Name)</div>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.FlavorId)
+
+  @Html.Label("Select treat")
+  @Html.DropDownList("TreatId", "N/A")
+
+  <input type="submit" value="Save" />
+}
+
+<p>Back to @Html.ActionLink("Flavor List", "Index")</p>

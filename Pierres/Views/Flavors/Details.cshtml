@@ -1,7 +1,35 @@
-@* <h1>To Do List Item Details: </h1>
+@{
+  Layout = "_Layout";
+}
 
-<h2>@Model["item"].Description</h2>
-<h3>Category: @Model["category"].Name</h3>
+@model Pierres.Models.Flavor;
 
-<a href='/categories/@Model["category"].Id/items/new'>Add another item</a>
-<a href="/items">View all items</a> *@
+<div class="header">Flavor Details</div>
+
+<div class="subHeader">@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</div>
+
+@if(Model.JoinEntities.Count == 0)
+{
+  <p>This flavor hasn't been assigned to any types of treats</p>
+}
+else
+{
+  <div class="subHeader">treats that this flavor has been assigned to: </div>
+  <ul>
+    @foreach(var join in Model.JoinEntities)
+    {
+      <li>@join.Treat.Name</li>
+      @using (Html.BeginForm("DeleteTreat", "Flavors"))
+      {
+        @Html.Hidden("joinId", @join.FlavorTreatId)
+        <input type="submit" value="Delete" />
+      }
+    }
+  </ul>
+}
+
+<p>Back to @Html.ActionLink("Flavors List", "Index")</p>
+<p>@Html.ActionLink("Edit Flavor", "Edit", new {id = Model.FlavorId })</p>
+<p>Add this flavor to a @Html.ActionLink("treat", "AddTreat", new { id = Model.FlavorId })</p>
+<p>@Html.ActionLink("Delete Flavor", "Delete", new { id = Model.FlavorId })</p>
+<p>@Html.ActionLink("Home Page", "Index", "Home")</p>

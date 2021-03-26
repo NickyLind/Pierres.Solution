@@ -1,2 +1,14 @@
-@* <h1>Your list has been cleared!</h1>
-<p><a href="/classname">Back to list.</a></p> *@
+@{
+  Layout = "_Layout";
+}
+
+@model Pierres.Models.Flavor
+
+<div class="subHeader">Are you sure you want to remove this flavor from the list?</div>
+
+@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)
+@using (Html.BeginForm())
+{
+  <input type="submit" value="Delete" />
+}
+<p>Back to @Html.ActionLink("Flavor List", "Index")</p>

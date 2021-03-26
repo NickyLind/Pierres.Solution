@@ -1,0 +1,26 @@
+@{
+  Layout = "_Layout";
+}
+
+@model Pierres.Models.Flavor
+
+<div class="header">Edit</div>
+
+<div class="subHeader">Edit this Flavor: @Html.DisplayFor(model => model.Name)</div>
+
+@using (Html.BeginForm())
+{
+  @Html.HiddenFor(model => model.FlavorId)
+  @foreach (var join in Model.JoinEntities)
+  {
+      @Html.Hidden("joinId", @join.FlavorTreatId)
+  }
+
+  @Html.LabelFor(model => model.Name)
+  @Html.EditorFor(model => model.Name)
+@* branching to remove droplist if there are no treats yet *@
+  @Html.Label("Select a treat")
+  @Html.DropDownList("TreatId", "N/A")
+  <input type="submit" value="Save" />
+}
+<p>Back to @Html.ActionLink("Flavor List", "Index")</p>
