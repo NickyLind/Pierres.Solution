@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ToDoList.Models;
+using Pierres.Models;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,7 +12,7 @@ using System.Linq;
 namespace Pierres.Controllers
 {
   [Authorize]
-  public class TreatController : Controller
+  public class TreatsController : Controller
   {
     private readonly PierresContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
@@ -35,14 +35,14 @@ namespace Pierres.Controllers
 
     public ActionResult Create()
     {
-      ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name")
+      ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
       return View();
     }
 
     [HttpPost]
     public async Task<ActionResult> Create(Treat treat, int FlavorId)
     {
-      var userId = this.User.FindFirdt(ClaimTypes.NameIdentifier)?.Value;
+      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
       treat.User = currentUser;
       _db.Treats.Add(treat);
@@ -73,7 +73,7 @@ namespace Pierres.Controllers
         .FirstOrDefault(treat => treat.TreatId == id);
       var selectedFlavors = _db.FlavorTreat
         .Where(ft => ft.TreatId == id)
-        .Select(flavor => flavor.FlavorId).ToList()
+        .Select(flavor => flavor.FlavorId).ToList();
       ViewBag.FlavorId = new SelectList(_db.Flavors
         .Where(flavor => !selectedFlavors.Contains(flavor.FlavorId))
         .Select(flavor => flavor),
@@ -82,11 +82,11 @@ namespace Pierres.Controllers
     }
 
     [HttpPost]
-    public ActionResult Edit(Treat treat, int FlavorId)
+    public ActionResult Edit(Treat treat, int FlavorId, int joinId)
     {
       if (FlavorId != 0)
       {
-        var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreat == joinId);
+        var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
         _db.FlavorTreat.Remove(joinEntry);
         _db.FlavorTreat.Add(new FlavorTreat() { FlavorId = FlavorId, TreatId = treat.TreatId });
       }
@@ -103,7 +103,7 @@ namespace Pierres.Controllers
         .FirstOrDefault(treat => treat.TreatId == id);
       var selectedFlavors = _db.FlavorTreat
         .Where(ft => ft.TreatId == id)
-        .Select(flavor => flavor.FlavorId).ToList()
+        .Select(flavor => flavor.FlavorId).ToList();
       ViewBag.FlavorId = new SelectList(_db.Flavors
         .Where(flavor => !selectedFlavors.Contains(flavor.FlavorId))
         .Select(flavor => flavor),
@@ -143,7 +143,7 @@ namespace Pierres.Controllers
       var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
       _db.FlavorTreat.Remove(joinEntry);
       _db.SaveChanges();
-      return RedirectToActions("Index");
+      return RedirectToAction("Index");
     }
   }
 }

@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using Pierres.Models;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System.Security.Claims;
-using Pierres.Models;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace Pierres.Controllers
@@ -16,9 +17,9 @@ namespace Pierres.Controllers
     private readonly PierresContext _db;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public FlavorsController(PierresContext db)
+    public FlavorsController(PierresContext db, UserManager<ApplicationUser> userManager)
     {
-      _userManger = userManager;
+      _userManager = userManager;
       _db = db;
     }
 
@@ -27,7 +28,7 @@ namespace Pierres.Controllers
     {
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
-      var userFlavors = _db.Treats.Where(entry => entry.User.Id == currentUser.Id). Tolist();
+      var userFlavors = _db.Treats.Where(entry => entry.User.Id == currentUser.Id).ToList();
       return View(userFlavors);
     }
 
@@ -42,7 +43,7 @@ namespace Pierres.Controllers
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var currentUser = await _userManager.FindByIdAsync(userId);
       flavor.User = currentUser;
-      _db.Flavors.Add(flavor)
+      _db.Flavors.Add(flavor);
       _db.SaveChanges();
       if (TreatId != 0)
       {
@@ -58,7 +59,7 @@ namespace Pierres.Controllers
       var thisFlavor = _db.Flavors
         .Include(flavor => flavor.JoinEntities)
         .ThenInclude(join => join.Treat)
-        .FirstOrDefault(flavor => flavor.FlavorId == id)
+        .FirstOrDefault(flavor => flavor.FlavorId == id);
       return View(thisFlavor);
     }
 
@@ -83,9 +84,9 @@ namespace Pierres.Controllers
     {
       if (TreatId != 0)
       {
-        var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinid);
-        _db.FlavorTreat.Remove(joinEntry)
-        _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId })
+        var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+        _db.FlavorTreat.Remove(joinEntry);
+        _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
       }
       _db.Entry(flavor).State = EntityState.Modified;
       _db.SaveChanges();
