@@ -24,6 +24,7 @@ namespace Pierres.Controllers
       _userManager = userManager;
     }
 
+    [AllowAnonymous]
     public async Task<ActionResult> Index()
     {
       var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -54,6 +55,7 @@ namespace Pierres.Controllers
       return RedirectToAction("Index");
     }
 
+    [AllowAnonymous]
     public ActionResult Details(int id)
     {
       var thisTreat = _db.Treats
@@ -65,8 +67,17 @@ namespace Pierres.Controllers
 
     public ActionResult Edit(int id)
     {
-      var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
-      ViewBag.FlavorTreat = new SelectList(_db.Flavors, "FlavorId", "Name");
+      var thisTreat = _db.Treats
+        .Include(treat => treat.JoinEntities)
+        .ThenInclude(join => join.Flavor)
+        .FirstOrDefault(treat => treat.TreatId == id);
+      var selectedFlavors = _db.FlavorTreat
+        .Where(ft => ft.TreatId == id)
+        .Select(flavor => flavor.FlavorId).ToList()
+      ViewBag.FlavorId = new SelectList(_db.Flavors
+        .Where(flavor => !selectedFlavors.Contains(flavor.FlavorId))
+        .Select(flavor => flavor),
+        "FlavorId", "Name");
       return View(thisTreat);
     }
 
@@ -75,6 +86,8 @@ namespace Pierres.Controllers
     {
       if (FlavorId != 0)
       {
+        var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreat == joinId);
+        _db.FlavorTreat.Remove(joinEntry);
         _db.FlavorTreat.Add(new FlavorTreat() { FlavorId = FlavorId, TreatId = treat.TreatId });
       }
       _db.Entry(treat).State = EntityState.Modified;
@@ -84,8 +97,17 @@ namespace Pierres.Controllers
 
     public ActionResult AddFlavor(int id)
     {
-      var thisTreat = _db.Treats.FirstOrDefault(treat => treat.TreatId == id);
-      ViewBag.FlavorId = new SelectList(_db.Flavors, "FlavorId", "Name");
+      var thisTreat = _db.Treats
+        .Include(treat => treat.JoinEntities)
+        .ThenInclude(join => join.Flavor)
+        .FirstOrDefault(treat => treat.TreatId == id);
+      var selectedFlavors = _db.FlavorTreat
+        .Where(ft => ft.TreatId == id)
+        .Select(flavor => flavor.FlavorId).ToList()
+      ViewBag.FlavorId = new SelectList(_db.Flavors
+        .Where(flavor => !selectedFlavors.Contains(flavor.FlavorId))
+        .Select(flavor => flavor),
+        "FlavorId", "Name");
       return View(thisTreat);
     }
 
