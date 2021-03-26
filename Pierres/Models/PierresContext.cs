@@ -5,8 +5,9 @@ namespace Pierres.Models
 {
   public class PierresContext : IdentityDbContext<ApplicationUser>
   {
-    // public virtual DbSet<Category> Categories { get; set; }
-    // public DbSet<Item> Items { get; set; }
+    public virtual DbSet<Flavor> Flavors { get; set; }
+    public DbSet<Treat> Treats { get; set; }
+    public DbSet<FlavorTreat> FlavorTreat { get; set; }
     public PierresContext(DbContextOptions options) : base(options) { }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
