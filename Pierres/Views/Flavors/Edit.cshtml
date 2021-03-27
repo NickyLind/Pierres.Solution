@@ -18,9 +18,11 @@
 
   @Html.LabelFor(model => model.Name)
   @Html.EditorFor(model => model.Name)
-
+  @if((ViewBag.TreatId as SelectList).Any())
+  {
   @Html.Label("Select a treat")
-  @Html.DropDownList("TreatId", "N/A")
+  @Html.DropDownList("TreatId", "~Select an option~")
+  }
   <input type="submit" value="Save" />
 }
 <p>Back to @Html.ActionLink("Flavor List", "Index")</p>

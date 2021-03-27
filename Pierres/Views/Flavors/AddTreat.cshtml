@@ -11,10 +11,15 @@
 @using (Html.BeginForm())
 {
   @Html.HiddenFor(model => model.FlavorId)
-
+  @if(!(ViewBag.TreatId as SelectList).Any())
+  {
+    <p>There are no treats to add this flavor to, please add on to the @Html.ActionLink("treat list", "Create", "Treats")</p>
+  }
+  else
+  {
   @Html.Label("Select treat")
-  @Html.DropDownList("TreatId", "N/A")
-
+  @Html.DropDownList("TreatId", "~Select an option~")
+  }
   <input type="submit" value="Save" />
 }
 

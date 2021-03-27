@@ -14,10 +14,11 @@
   @Html.LabelFor(model => model.Description)
   @Html.TextBoxFor(model => model.Description)
 
-
+  @if((ViewBag.FlavorId as SelectList).Any())
+  {
   @Html.Label("Select flavor")
-  @Html.DropDownList("FlavorId")
-
+  @Html.DropDownList("FlavorId", "~Select an option~")
+  }
   <input type="submit" value="Add new treat" />
 }
 

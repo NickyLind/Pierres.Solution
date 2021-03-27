@@ -9,9 +9,11 @@
 {
   @Html.LabelFor(model => model.Name)
   @Html.TextBoxFor(model => model.Name)
-
+  @if((ViewBag.TreatId as SelectList).Any())
+  {
   @Html.Label("select treat")
-  @Html.DropDownList("TreatId")
+  @Html.DropDownList("TreatId", "~Select an option~")
+  }
   <input type="submit" value="add a new flavor" />
 }
 <p>Show @Html.ActionLink("all flavors", "Index")</p>
