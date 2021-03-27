@@ -4,7 +4,7 @@
 
 @using System.Security.Claims
 
-<h2>Please sign in to make changes</h2>
+<div class="header">User Account Information</div>
 <hr />
 @if (User.Identity.IsAuthenticated)
 {
@@ -16,6 +16,7 @@
 }
 else
 {
+  <div class="header">Please Log In or Register to edit your treats</div>
   <p>@Html.ActionLink("Register", "Register")</p>
   <p>@Html.ActionLink("Log in", "Login")</p>
 }

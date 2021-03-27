@@ -60,7 +60,7 @@ namespace Pierres.Controllers
       }
       else
       {
-        return View();
+        return RedirectToAction("LoginFail");
       }
     }
 
@@ -69,6 +69,11 @@ namespace Pierres.Controllers
     {
       await _signInManager.SignOutAsync();
       return RedirectToAction("Index");
+    }
+
+    public ActionResult LoginFail()
+    {
+      return View();
     }
   }
 }

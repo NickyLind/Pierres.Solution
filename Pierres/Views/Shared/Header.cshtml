@@ -2,5 +2,13 @@
   <text>@Html.ActionLink("Home", "Index", "Home") |</text>
   <text>@Html.ActionLink("Treats", "Index", "Treats") |</text>
   <text>@Html.ActionLink("Flavors", "Index", "Flavors") |</text>
-  <text>@Html.ActionLink("Login", "Index", "Account")</text>
+  @if (User.Identity.IsAuthenticated)
+  {
+    <text>@Html.ActionLink("Log out", "Index", "Account")</text>
+  }
+  else
+  {
+    <text>@Html.ActionLink("Login", "Index", "Account") |</text>
+    <text>@Html.ActionLink("Register", "Register")</text>
+  }
 </div>

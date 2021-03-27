@@ -1,0 +1,10 @@
+@{
+  Layout = "_Layout";
+}
+
+@using Pierres.ViewModels
+
+@model LoginViewModel
+
+<div class="header">Login failed</div>
+<p>Please check your email or password and @Html.ActionLink("try again", "Login", "Account")</p>
