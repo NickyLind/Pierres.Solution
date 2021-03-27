@@ -18,7 +18,7 @@
 
   @Html.LabelFor(model => model.Name)
   @Html.EditorFor(model => model.Name)
-@* branching to remove droplist if there are no treats yet *@
+
   @Html.Label("Select a treat")
   @Html.DropDownList("TreatId", "N/A")
   <input type="submit" value="Save" />

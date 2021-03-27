@@ -4,14 +4,14 @@
 
 @using System.Security.Claims
 
-<h2>Authentication with Identity</h2>
+<h2>Please sign in to make changes</h2>
 <hr />
 @if (User.Identity.IsAuthenticated)
 {
   <p> Hello @User.Identity.Name!</p>
   @using (Html.BeginForm("LogOff", "Account"))
   {
-    <input type="submit" class="btn btn-default" value="log out" />
+    <input type="submit" class="btn" value="log out" />
   }
 }
 else

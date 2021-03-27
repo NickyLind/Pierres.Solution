@@ -9,7 +9,7 @@
 {
   @Html.LabelFor(model => model.Name)
   @Html.TextBoxFor(model => model.Name)
-@* add branching statement that makes droplist disappear if there are no treats yet *@
+
   @Html.Label("select treat")
   @Html.DropDownList("TreatId")
   <input type="submit" value="add a new flavor" />
