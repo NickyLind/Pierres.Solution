@@ -11,3 +11,7 @@ div#header {
 .header {
   size: 40px;
 }
+
+body  {
+  padding-top: 50px;
+}
