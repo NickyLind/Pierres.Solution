@@ -84,7 +84,10 @@ namespace Pierres.Controllers
       if (TreatId != 0)
       {
         var joinEntry = _db.FlavorTreat.FirstOrDefault(entry => entry.FlavorTreatId == joinId);
+        if (joinEntry != null)
+        {
         _db.FlavorTreat.Remove(joinEntry);
+        }
         _db.FlavorTreat.Add(new FlavorTreat() { TreatId = TreatId, FlavorId = flavor.FlavorId });
       }
       _db.Entry(flavor).State = EntityState.Modified;
